@@ -455,6 +455,7 @@ IDE_Morph.prototype.createControlBar = function () {
         stopButton,
         pauseButton,
         startButton,
+		recordButton,
         projectButton,
         settingsButton,
         stageSizeButton,
@@ -620,6 +621,29 @@ IDE_Morph.prototype.createControlBar = function () {
     startButton = button;
     this.controlBar.add(startButton);
     this.controlBar.startButton = startButton;
+	
+	// recordButton
+    button = new PushButtonMorph(
+        this,
+        'startRecording',
+        new SymbolMorph('square', 14)
+    );
+    button.corner = 12;
+    button.color = colors[0];
+    button.highlightColor = colors[1];
+    button.pressColor = colors[2];
+    button.labelMinExtent = new Point(36, 18);
+    button.padding = 0;
+    button.labelShadowOffset = new Point(-1, -1);
+    button.labelShadowColor = colors[1];
+    button.labelColor = new Color(200, 0, 0);
+    button.contrast = this.buttonContrast;
+    button.drawNew();
+    // button.hint = 'stop\nevery-\nthing';
+    button.fixLayout();
+    recordButton = button;
+    this.controlBar.add(recordButton);
+    this.controlBar.recordButton = recordButton;
 
     // projectButton
     button = new PushButtonMorph(
@@ -694,7 +718,7 @@ IDE_Morph.prototype.createControlBar = function () {
 
     this.controlBar.fixLayout = function () {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton].forEach(
+        [stopButton, pauseButton, startButton, recordButton].forEach(
             function (button) {
                 button.setCenter(myself.controlBar.center());
                 button.setRight(x);
@@ -1675,6 +1699,13 @@ IDE_Morph.prototype.selectSprite = function (sprite) {
     this.fixLayout('selectSprite');
     this.currentSprite.scripts.fixMultiArgs();
 };
+
+IDE_Morph.prototype.startRecording = function() {
+	//TODO
+	IDE_Morph.prototype.mouseMove = function(pos) {
+		console.log(pos);
+	};
+}
 
 // IDE_Morph skins
 
