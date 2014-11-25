@@ -1702,9 +1702,7 @@ IDE_Morph.prototype.selectSprite = function (sprite) {
 
 IDE_Morph.prototype.startRecording = function() {
 	//TODO
-	IDE_Morph.prototype.mouseMove = function(pos) {
-		console.log(pos);
-	};
+	console.log('recording todo');
 }
 
 // IDE_Morph skins
