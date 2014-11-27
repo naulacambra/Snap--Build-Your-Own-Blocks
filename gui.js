@@ -1724,8 +1724,6 @@ IDE_Morph.prototype.startRecording = function() {
 
 IDE_Morph.prototype.recordFunction = function (event) {
     world.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
-    //console.log(world.tutorial);
-    //console.log(event);
 };
 
 // IDE_Morph skins
@@ -6397,14 +6395,17 @@ Position.prototype.getY = function(){
 
 //Tutorial
 function Tutorial() {
-    this.date = new Date()
-    this.lastUpdated = this.date.getTime();
+    date = new Date();
+    this.lastUpdated = date.getTime();
     this.positions = [];
 }
 
 Tutorial.prototype.constructor = Tutorial;
 
 Tutorial.prototype.addMousePosition = function (pos) {
-    this.positions.push(pos);
-    console.log('position added');
+    new_date = new Date();
+    if(new_date.getTime() - this.lastUpdated > 100){
+        this.positions.push(pos);    
+        this.lastUpdated = new_date.getTime();
+    }    
 };
