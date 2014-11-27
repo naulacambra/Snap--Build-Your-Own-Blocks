@@ -455,6 +455,7 @@ IDE_Morph.prototype.createControlBar = function () {
         stopButton,
         pauseButton,
         startButton,
+        recordButton,
         projectButton,
         settingsButton,
         stageSizeButton,
@@ -620,6 +621,29 @@ IDE_Morph.prototype.createControlBar = function () {
     startButton = button;
     this.controlBar.add(startButton);
     this.controlBar.startButton = startButton;
+    
+    // recordButton
+    button = new PushButtonMorph(
+        this,
+        'startRecording',
+        new SymbolMorph('square', 14)
+    );
+    button.corner = 12;
+    button.color = colors[0];
+    button.highlightColor = colors[1];
+    button.pressColor = colors[2];
+    button.labelMinExtent = new Point(36, 18);
+    button.padding = 0;
+    button.labelShadowOffset = new Point(-1, -1);
+    button.labelShadowColor = colors[1];
+    button.labelColor = new Color(200, 0, 0);
+    button.contrast = this.buttonContrast;
+    button.drawNew();
+    // button.hint = 'stop\nevery-\nthing';
+    button.fixLayout();
+    recordButton = button;
+    this.controlBar.add(recordButton);
+    this.controlBar.recordButton = recordButton;
 
     // projectButton
     button = new PushButtonMorph(
@@ -694,7 +718,7 @@ IDE_Morph.prototype.createControlBar = function () {
 
     this.controlBar.fixLayout = function () {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton].forEach(
+        [stopButton, pauseButton, startButton, recordButton].forEach(
             function (button) {
                 button.setCenter(myself.controlBar.center());
                 button.setRight(x);
@@ -1674,6 +1698,34 @@ IDE_Morph.prototype.selectSprite = function (sprite) {
     this.corral.refresh();
     this.fixLayout('selectSprite');
     this.currentSprite.scripts.fixMultiArgs();
+};
+
+IDE_Morph.prototype.startRecording = function() {
+    //TODO
+    if(this.stage.recording){
+        this.stage.recording = false;
+        this.world().worldCanvas.removeEventListener(
+            "mousemove",
+            this.recordFunction,
+            false);
+        console.log('stop recording');
+    }
+    else{
+        this.stage.recording = true;
+        this.tutorial = new Tutorial();
+        console.log(this.tutorial);
+        this.world().worldCanvas.addEventListener(
+            "mousemove",
+            this.recordFunction,
+            false);
+        console.log('recording');
+    }
+};
+
+IDE_Morph.prototype.recordFunction = function (event) {
+    //this.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
+    console.log(this.tutorial);
+    //console.log(event);
 };
 
 // IDE_Morph skins
@@ -6327,4 +6379,31 @@ JukeboxMorph.prototype.reactToDropOf = function (icon) {
     });
     this.sprite.sounds.add(costume, idx);
     this.updateList();
+};
+
+//Tutorial
+
+//Position
+function Position(x, y){
+    this.x = x;
+    this.y = y;
+}
+
+Position.prototype.getX = function(){
+    return this.x;
+}
+
+Position.prototype.getY = function(){
+    return this.y;
+}
+
+function Tutorial() {
+    this.date = new Date()
+    this.lastUpdated = this.date.getTime();
+    this.positions = [];
+}
+
+Tutorial.prototype.addMousePosition = function (pos) {
+    positions.push(pos);
+    console.log('position added');
 };
