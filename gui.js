@@ -1712,8 +1712,8 @@ IDE_Morph.prototype.startRecording = function() {
     }
     else{
         this.stage.recording = true;
-        this.tutorial = new Tutorial();
-        console.log(this.tutorial);
+        world.tutorial = new Tutorial();
+        console.log(world.tutorial);
         this.world().worldCanvas.addEventListener(
             "mousemove",
             this.recordFunction,
@@ -1723,8 +1723,8 @@ IDE_Morph.prototype.startRecording = function() {
 };
 
 IDE_Morph.prototype.recordFunction = function (event) {
-    //this.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
-    console.log(this.tutorial);
+    world.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
+    //console.log(world.tutorial);
     //console.log(event);
 };
 
@@ -6381,8 +6381,6 @@ JukeboxMorph.prototype.reactToDropOf = function (icon) {
     this.updateList();
 };
 
-//Tutorial
-
 //Position
 function Position(x, y){
     this.x = x;
@@ -6397,13 +6395,16 @@ Position.prototype.getY = function(){
     return this.y;
 }
 
+//Tutorial
 function Tutorial() {
     this.date = new Date()
     this.lastUpdated = this.date.getTime();
     this.positions = [];
 }
 
+Tutorial.prototype.constructor = Tutorial;
+
 Tutorial.prototype.addMousePosition = function (pos) {
-    positions.push(pos);
+    this.positions.push(pos);
     console.log('position added');
 };
