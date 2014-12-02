@@ -1707,6 +1707,22 @@ IDE_Morph.prototype.startRecording = function() {
             "mousemove",
             this.recordFunction,
             false);
+        this.world().worldCanvas.removeEventListener(
+            "dblclick",
+            this.doubleClickFunction,
+            false);
+        this.world().worldCanvas.removeEventListener(
+            "keypress",
+            this.keyPressFunction,
+            false);
+        this.world().worldCanvas.removeEventListener(
+            "mousedown",
+            this.mouseDownFunction,
+            false);
+        this.world().worldCanvas.removeEventListener(
+            "mouseup",
+            this.mouseUpFunction,
+            false);
         console.log('stop recording');
     }
     else{
