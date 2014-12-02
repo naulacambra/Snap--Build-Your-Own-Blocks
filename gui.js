@@ -1783,6 +1783,7 @@ IDE_Morph.prototype.moveMouseFunction = function (event) {
 IDE_Morph.prototype.doubleClickFunction = function (event) {
     world.tutorial.addAction( new DoubleClick( new Position( event.pageX, event.pageY ) ) );
     console.log('mouse double clicked!');
+    new Mouse();
 };
 
 IDE_Morph.prototype.keyPressFunction = function (event) {
@@ -6559,3 +6560,26 @@ Tutorial.prototype.addAction = function ( _action ){
     _action.setDelta = new_date.getTime();
     this.actions.push( _action );
 }
+
+//Mouse
+Mouse.prototype = new Morph();
+Mouse.prototype.constructor = Mouse;
+Mouse.uber = Morph.prototype;
+
+function Mouse(){
+     Mouse.uber.init.call(this);
+     this.drawNew();
+}
+
+Mouse.prototype.drawNew = function() {
+    //var context;
+    //this.image = newCanvas(this.extent());
+    //context = this.image.getContext('2d');
+
+    this.image = newCanvas(this.extent());
+    var context = this.image.getContext('2d');
+    context.fillStyle = '#ff0000';
+    context.fillRect(0, 0, 150, 150);
+    // use context to paint stuff here
+};
+
