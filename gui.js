@@ -639,7 +639,6 @@ IDE_Morph.prototype.createControlBar = function () {
     button.labelColor = new Color(200, 0, 0);
     button.contrast = this.buttonContrast;
     button.drawNew();
-    // button.hint = 'stop\nevery-\nthing';
     button.fixLayout();
     recordButton = button;
     this.controlBar.add(recordButton);
@@ -1718,12 +1717,46 @@ IDE_Morph.prototype.startRecording = function() {
             "mousemove",
             this.recordFunction,
             false);
+        this.world().worldCanvas.addEventListener(
+            "dblclick",
+            this.doubleClickFunction,
+            false);
+        this.world().worldCanvas.addEventListener(
+            "keypress",
+            this.keyPressFunction,
+            false);
+        this.world().worldCanvas.addEventListener(
+            "mousedown",
+            this.mouseDownFunction,
+            false);
+        this.world().worldCanvas.addEventListener(
+            "mouseup",
+            this.mouseUpFunction,
+            false);
         console.log('recording');
     }
+
+    //this.stage.new_mouse = new SpriteMorph(this.globalVariables);
 };
 
 IDE_Morph.prototype.recordFunction = function (event) {
     world.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
+};
+
+IDE_Morph.prototype.doubleClickFunction = function (event) {
+    console.log('mouse double clicked!');
+};
+
+IDE_Morph.prototype.keyPressFunction = function (event) {
+    console.log('key pressed!');
+};
+
+IDE_Morph.prototype.mouseDownFunction = function (event) {
+    console.log('mouse down!');
+};
+
+IDE_Morph.prototype.mouseUpFunction = function (event) {
+    console.log('mouse up!');
 };
 
 // IDE_Morph skins

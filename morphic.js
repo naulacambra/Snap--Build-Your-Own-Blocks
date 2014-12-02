@@ -10394,6 +10394,7 @@ WorldMorph.prototype.initEventListeners = function () {
         },
         false
     );
+    
     window.addEventListener(
         "drop",
         function (event) {
