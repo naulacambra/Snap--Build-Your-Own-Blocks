@@ -456,6 +456,7 @@ IDE_Morph.prototype.createControlBar = function () {
         pauseButton,
         startButton,
         recordButton,
+        exportButton,
         projectButton,
         settingsButton,
         stageSizeButton,
@@ -644,6 +645,28 @@ IDE_Morph.prototype.createControlBar = function () {
     this.controlBar.add(recordButton);
     this.controlBar.recordButton = recordButton;
 
+    // exportButton
+    button = new PushButtonMorph(
+        this,
+        'exportTutorial',
+        new SymbolMorph('file', 14)
+    );
+    button.corner = 12;
+    button.color = colors[0];
+    button.highlightColor = colors[1];
+    button.pressColor = colors[2];
+    button.labelMinExtent = new Point(36, 18);
+    button.padding = 0;
+    button.labelShadowOffset = new Point(-1, -1);
+    button.labelShadowColor = colors[1];
+    button.labelColor = new Color(255, 255, 255);
+    button.contrast = this.buttonContrast;
+    button.drawNew();
+    button.fixLayout();
+    exportButton = button;
+    this.controlBar.add(exportButton);
+    this.controlBar.exportButton = exportButton;
+
     // projectButton
     button = new PushButtonMorph(
         this,
@@ -717,7 +740,7 @@ IDE_Morph.prototype.createControlBar = function () {
 
     this.controlBar.fixLayout = function () {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton, recordButton].forEach(
+        [stopButton, pauseButton, startButton, recordButton, exportButton].forEach(
             function (button) {
                 button.setCenter(myself.controlBar.center());
                 button.setRight(x);
@@ -1751,29 +1774,36 @@ IDE_Morph.prototype.startRecording = function() {
             false);
         console.log('recording');
     }
-
-    //this.stage.new_mouse = new SpriteMorph(this.globalVariables);
 };
 
 IDE_Morph.prototype.recordFunction = function (event) {
-    world.tutorial.addMousePosition(new Position(event.pageX, event.pageY));
+    //world.tutorial.addMousePosition( new Position( event.pageX, event.pageY ) );
+    world.tutorial.addAction( new MouseMove( new Position( event.pageX, event.pageY ) ) );
 };
 
 IDE_Morph.prototype.doubleClickFunction = function (event) {
+    world.tutorial.addAction( new DoubleClick( new Position( event.pageX, event.pageY ) ) );
     console.log('mouse double clicked!');
 };
 
 IDE_Morph.prototype.keyPressFunction = function (event) {
+    world.tutorial.addAction( new KeyPress( event.keyCode ) );
     console.log('key pressed!');
 };
 
 IDE_Morph.prototype.mouseDownFunction = function (event) {
+    world.tutorial.addAction( new MouseDown( new Position( event.pageX, event.pageY ) ) );
     console.log('mouse down!');
 };
 
 IDE_Morph.prototype.mouseUpFunction = function (event) {
+    world.tutorial.addAction( new MouseUp( new Position( event.pageX, event.pageY ) ) );
     console.log('mouse up!');
 };
+
+IDE_Morph.prototype.exportTutorial = function(){
+    console.log( 'exported tutorial!' );
+}
 
 // IDE_Morph skins
 
@@ -6432,6 +6462,7 @@ JukeboxMorph.prototype.reactToDropOf = function (icon) {
 function Position(x, y){
     this.x = x;
     this.y = y;
+    this.delta = -1;
 }
 
 Position.prototype.getX = function(){
@@ -6442,19 +6473,88 @@ Position.prototype.getY = function(){
     return this.y;
 }
 
+Position.prototype.setDelta = function(_delta){
+    this.delta = _delta;
+}
+
+//Actions
+function Action( _type ){
+    this.type = _type;
+    this.delta = -1;
+}
+
+Action.prototype.setDelta = function( _delta ){
+    this.delta = _delta;
+}
+
+//Action MouseMoved
+function MouseMove( _pos ){
+    this.action = new Action( 'mousemove' );
+    this.pos = _pos;
+}
+
+MouseMove.prototype.setDelta = function( _delta ){
+    this.action.setDelta( _delta );
+}
+
+//Action KeyPressed
+function KeyPress( _key ){
+    this.action = new Action( 'keypress' );
+    this.key = _key;
+}
+
+KeyPress.prototype.setDelta = function( _delta ){
+    this.action.setDelta( _delta );
+}
+
+//Action DoubleClick
+function DoubleClick( _pos ){
+    this.action = new Action( 'dblclick' );
+    this.pos = _pos;
+}
+
+DoubleClick.prototype.setDelta = function( _delta ){
+    this.action.setDelta( _delta );
+}
+
+//Action MouseUp
+function MouseUp( _pos ){
+    this.action = new Action( 'mouseup' );
+    this.pos = _pos;
+}
+
+MouseUp.prototype.setDelta = function( _delta ){
+    this.action.setDelta( _delta );
+}
+
+//Action MouseDown
+function MouseDown( _pos ){
+    this.action = new Action( 'mousedown' );
+    this.pos = _pos;
+}
+
+MouseDown.prototype.setDelta = function( _delta ){
+    this.action.setDelta( _delta );
+}
+
 //Tutorial
 function Tutorial() {
     date = new Date();
     this.lastUpdated = date.getTime();
     this.positions = [];
+    this.actions = [];
 }
 
 Tutorial.prototype.constructor = Tutorial;
 
-Tutorial.prototype.addMousePosition = function (pos) {
+Tutorial.prototype.addAction = function ( _action ){
     new_date = new Date();
-    if(new_date.getTime() - this.lastUpdated > 100){
-        this.positions.push(pos);    
-        this.lastUpdated = new_date.getTime();
-    }    
-};
+    if(_action.type == 'mousemove'){
+        if(new_date.getTime() - this.lastUpdated < 100)
+            return; 
+        else
+            this.lastUpdated = new_date.getTime();
+    }  
+    _action.setDelta = new_date.getTime();
+    this.actions.push( _action );
+}
