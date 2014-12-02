@@ -1721,14 +1721,13 @@ IDE_Morph.prototype.selectSprite = function (sprite) {
     this.fixLayout('selectSprite');
     this.currentSprite.scripts.fixMultiArgs();
 };
-
 IDE_Morph.prototype.startRecording = function() {
     //TODO
     if(this.stage.recording){
         this.stage.recording = false;
         this.world().worldCanvas.removeEventListener(
             "mousemove",
-            this.recordFunction,
+            this.moveMouseFunction,
             false);
         this.world().worldCanvas.removeEventListener(
             "dblclick",
@@ -1754,7 +1753,7 @@ IDE_Morph.prototype.startRecording = function() {
         console.log(world.tutorial);
         this.world().worldCanvas.addEventListener(
             "mousemove",
-            this.recordFunction,
+            this.moveMouseFunction,
             false);
         this.world().worldCanvas.addEventListener(
             "dblclick",
@@ -1776,7 +1775,7 @@ IDE_Morph.prototype.startRecording = function() {
     }
 };
 
-IDE_Morph.prototype.recordFunction = function (event) {
+IDE_Morph.prototype.moveMouseFunction = function (event) {
     //world.tutorial.addMousePosition( new Position( event.pageX, event.pageY ) );
     world.tutorial.addAction( new MouseMove( new Position( event.pageX, event.pageY ) ) );
 };
@@ -1802,6 +1801,11 @@ IDE_Morph.prototype.mouseUpFunction = function (event) {
 };
 
 IDE_Morph.prototype.exportTutorial = function(){
+    console.log(world.tutorial.actions.toString());
+
+    var positionJsonString = JSON.stringify(this.positions);
+    var data = new Blob([positionJsonString], {type: 'text/plain'});
+    textFile = window.URL.createObjectURL(data);
     console.log( 'exported tutorial!' );
 }
 
@@ -6462,7 +6466,6 @@ JukeboxMorph.prototype.reactToDropOf = function (icon) {
 function Position(x, y){
     this.x = x;
     this.y = y;
-    this.delta = -1;
 }
 
 Position.prototype.getX = function(){
@@ -6471,10 +6474,6 @@ Position.prototype.getX = function(){
 
 Position.prototype.getY = function(){
     return this.y;
-}
-
-Position.prototype.setDelta = function(_delta){
-    this.delta = _delta;
 }
 
 //Actions
@@ -6490,7 +6489,7 @@ Action.prototype.setDelta = function( _delta ){
 //Action MouseMoved
 function MouseMove( _pos ){
     this.action = new Action( 'mousemove' );
-    this.pos = _pos;
+    this.position = _pos;
 }
 
 MouseMove.prototype.setDelta = function( _delta ){
@@ -6541,7 +6540,6 @@ MouseDown.prototype.setDelta = function( _delta ){
 function Tutorial() {
     date = new Date();
     this.lastUpdated = date.getTime();
-    this.positions = [];
     this.actions = [];
 }
 
@@ -6549,12 +6547,15 @@ Tutorial.prototype.constructor = Tutorial;
 
 Tutorial.prototype.addAction = function ( _action ){
     new_date = new Date();
-    if(_action.type == 'mousemove'){
-        if(new_date.getTime() - this.lastUpdated < 100)
+    if(_action.action.type == 'mousemove'){
+        if(new_date.getTime() - this.lastUpdated < 100){
             return; 
-        else
+        }
+        else{
             this.lastUpdated = new_date.getTime();
-    }  
+            console.log(_action.position);
+        }
+    } 
     _action.setDelta = new_date.getTime();
     this.actions.push( _action );
 }
