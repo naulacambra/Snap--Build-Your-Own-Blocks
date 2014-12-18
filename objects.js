@@ -2020,6 +2020,166 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         button.selector = 'addVariable';
         button.showHelp = BlockMorph.prototype.showHelp;
         blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2a: Motion',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2a: Motion'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2b: Control',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2b: Control'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2c: Looks',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2c: Looks'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2d: Sensing',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2d: Sensing'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2e: Sound',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2e: Sound'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2f: Operators',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2f: Operators'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2g: Pen',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2g: Pen'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2h: Variables',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2h: Variables'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
     } 
 
     else if (cat === 'variables') {
@@ -4931,6 +5091,8 @@ StageMorph.prototype.blockTemplates = function (category) {
     function tutorialFunction()
     {
         console.log("Tutorial 1");
+        var result = str.link("http://www.w3schools.com");
+        document.getElementById("demo").innerHTML = result;
     }
 
     if (cat === 'motion') {
@@ -5187,6 +5349,165 @@ StageMorph.prototype.blockTemplates = function (category) {
             'Tutorial 1: Getting started'
         );
         blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2a: Motion',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2a: Motion'
+        );
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2b: Control',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2b: Control'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2c: Looks',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2c: Looks'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2d: Sensing',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2d: Sensing'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+         button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2e: Sound',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2e: Sound'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2f: Operators',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2f: Operators'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2g: Pen',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2g: Pen'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 2h: Variables',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 2h: Variables'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+
+
     } 
     else if (cat === 'variables') {
 
