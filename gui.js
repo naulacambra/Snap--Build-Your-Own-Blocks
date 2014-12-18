@@ -1723,6 +1723,7 @@ IDE_Morph.prototype.selectSprite = function (sprite) {
 };
 IDE_Morph.prototype.startRecording = function() {
     //TODO
+
     if(this.stage.recording){
         this.stage.recording = false;
         this.world().worldCanvas.removeEventListener(

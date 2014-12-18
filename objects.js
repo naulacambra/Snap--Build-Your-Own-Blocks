@@ -163,6 +163,7 @@ SpriteMorph.prototype.categories =
         'operators',
         'pen',
         'variables',
+        'tutorials',
         'lists',
         'other'
     ];
@@ -176,6 +177,7 @@ SpriteMorph.prototype.blockColor = {
     sensing : new Color(4, 148, 220),
     operators : new Color(98, 194, 19),
     variables : new Color(243, 118, 29),
+    tutorials: new Color(255, 0, 0),
     lists : new Color(217, 77, 17),
     other: new Color(150, 150, 150)
 };
@@ -349,6 +351,21 @@ SpriteMorph.prototype.initBlocks = function () {
         doThink: {
             only: SpriteMorph,
             type: 'command',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             category: 'looks',
             spec: 'think %s',
             defaults: [localize('Hmm...')]
@@ -1057,6 +1074,7 @@ SpriteMorph.prototype.initBlocks = function () {
         },
     */
 
+
         // Variables
         doSetVar: {
             type: 'command',
@@ -1674,6 +1692,11 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         return menu;
     }
 
+    function tutorialFunction()
+    {
+        console.log("TUTORIAL 1");
+    }
+
     function addVar(pair) {
         if (pair) {
             if (myself.variables.silentFind(pair[0])) {
@@ -1974,7 +1997,32 @@ SpriteMorph.prototype.blockTemplates = function (category) {
 
     /////////////////////////////////
 
-    } else if (cat === 'variables') {
+    }
+
+    else if(cat === 'tutorials')
+    {
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 1: Getting started',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 1: Getting started'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+        blocks.push(button);
+    } 
+
+    else if (cat === 'variables') {
 
         button = new PushButtonMorph(
             null,
@@ -1991,6 +2039,8 @@ SpriteMorph.prototype.blockTemplates = function (category) {
             },
             'Make a variable'
         );
+
+
         button.userMenu = helpMenu;
         button.selector = 'addVariable';
         button.showHelp = BlockMorph.prototype.showHelp;
@@ -4878,6 +4928,11 @@ StageMorph.prototype.blockTemplates = function (category) {
         }
     }
 
+    function tutorialFunction()
+    {
+        console.log("Tutorial 1");
+    }
+
     if (cat === 'motion') {
 
         txt = new TextMorph(localize(
@@ -5112,7 +5167,28 @@ StageMorph.prototype.blockTemplates = function (category) {
 
     //////////////////////////////////
 
-    } else if (cat === 'variables') {
+    } 
+    else if(cat === 'tutorials')
+    {
+
+        button = new PushButtonMorph(
+            null,
+            function () {
+                new VariableDialogMorph(
+                    null,
+                    tutorialFunction,
+                    myself
+                ).prompt(
+                    'Tutorial 1: Getting started',
+                    null,
+                    myself.world()
+                );
+            },
+            'Tutorial 1: Getting started'
+        );
+        blocks.push(button);
+    } 
+    else if (cat === 'variables') {
 
         button = new PushButtonMorph(
             null,
