@@ -1695,6 +1695,13 @@ SpriteMorph.prototype.blockTemplates = function (category) {
     function tutorialFunction()
     {
         console.log("TUTORIAL 1");
+        window.open('Tutorials/tutorial1.html', 'Tutorial1');
+    }
+
+    IDE_Morph.prototype.tutorialFunction1 = function() { tutorialFunction()
+    
+        console.log("TUTORIAL 1");
+        window.open('Tutorials/tutorial1.html', 'Tutorial1');
     }
 
     function addVar(pair) {
@@ -2001,7 +2008,18 @@ SpriteMorph.prototype.blockTemplates = function (category) {
 
     else if(cat === 'tutorials')
     {
-        button = new PushButtonMorph(
+        /*button = new PushButtonMorph(
+            this,
+            "tutorialFunction",
+            'Tutorial 1: Getting started'
+        );
+        button.userMenu = helpMenu;
+        button.selector = 'addVariable';
+        button.showHelp = BlockMorph.prototype.showHelp;
+
+        blocks.push(button);*/
+
+       button = new PushButtonMorph(
             null,
             function () {
                 new VariableDialogMorph(
@@ -5088,12 +5106,6 @@ StageMorph.prototype.blockTemplates = function (category) {
         }
     }
 
-    function tutorialFunction()
-    {
-        console.log("Tutorial 1");
-        var result = str.link("http://www.w3schools.com");
-        document.getElementById("demo").innerHTML = result;
-    }
 
     if (cat === 'motion') {
 
@@ -5332,6 +5344,13 @@ StageMorph.prototype.blockTemplates = function (category) {
     } 
     else if(cat === 'tutorials')
     {
+
+        /*button = new PushButtonMorph(
+            this,
+            "tutorialFunction",
+            'Tutorial 1: Getting started'
+        );
+        blocks.push(button);*/
 
         button = new PushButtonMorph(
             null,
