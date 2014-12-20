@@ -1762,7 +1762,7 @@ IDE_Morph.prototype.startRecording = function () {
                 false);
         //create file with the mouse moves
         console.log('create and download tutorial file');
-//        this.exportTutorial();
+        this.exportTutorial();
         console.log('create new mouse and do play the tutorial');
         this.playTutorial();
         console.log('stop recording');
