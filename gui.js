@@ -666,7 +666,7 @@ IDE_Morph.prototype.createControlBar = function () {
     exportButton = button;
     this.controlBar.add(exportButton);
     this.controlBar.exportButton = exportButton;
-
+    
     // projectButton
     button = new PushButtonMorph(
             this,
@@ -1614,6 +1614,9 @@ IDE_Morph.prototype.droppedText = function (aString, name) {
     if (aString.indexOf('<media') === 0) {
         return this.openMediaString(aString);
     }
+    if (aString.indexOf('<tutorial') === 0) {
+        return world.tutorial.readTutorial(aString);
+    }
 };
 
 IDE_Morph.prototype.droppedBinary = function (anArrayBuffer, name) {
@@ -1833,7 +1836,11 @@ IDE_Morph.prototype.exportTutorial = function () {
 }
 
 IDE_Morph.prototype.createXMLTutorial = function () {
-    var data = new Blob([world.tutorial.actions.toString()], {type: 'text/plain'});
+    var text = '<tutorial>';
+    text += world.tutorial.actions.toString();
+    text += '</tutorial>';
+    
+    var data = new Blob([text], {type: 'text/plain'});
 
     return window.URL.createObjectURL(data);
 }
@@ -1863,7 +1870,6 @@ IDE_Morph.prototype.createNewCursor = function () {
     newSpriteMorph.parent = this;
     this.currentSprite = newSpriteMorph;
     console.log('new cursor created!');
-    console.log(newSpriteMorph);
 }
 // IDE_Morph skins
 
@@ -6629,7 +6635,11 @@ MouseMove.prototype.getPoint = function () {
 }
 
 MouseMove.prototype.toString = function () {
-    return this.action.toString();
+    var text = '<action>';
+    text += '<name>' + this.action.type + '</name>';
+    text += '<point><x>' + this.point.x + '</x><y>' + this.point.y + '</y></point>';
+    text += '</action>';
+    return text;
 }
 
 //Action KeyPressed
@@ -6643,7 +6653,15 @@ KeyPress.prototype.setDelta = function (_delta) {
 }
 
 KeyPress.prototype.getPoint = function () {
-    return this.point;
+    return new Point(0, 0);
+}
+
+KeyPress.prototype.toString = function () {
+    var text = '<action>';
+    text += '<name>' + this.action.type + '</name>';
+    text += '<key>' + this.key + '</key>';
+    text += '</action>';
+    return text;
 }
 
 //Action DoubleClick
@@ -6660,6 +6678,14 @@ DoubleClick.prototype.getPoint = function () {
     return this.point;
 }
 
+DoubleClick.prototype.toString = function () {
+    var text = '<action>';
+    text += '<name>' + this.action.type + '</name>';
+    text += '<point><x>' + this.point.x + '</x><y>' + this.point.y + '</y></point>';
+    text += '</action>';
+    return text;
+}
+
 //Action MouseUp
 function MouseUp(_point) {
     this.action = new Action('mouseup');
@@ -6674,6 +6700,14 @@ MouseUp.prototype.getPoint = function () {
     return this.point;
 }
 
+MouseUp.prototype.toString = function () {
+    var text = '<action>';
+    text += '<name>' + this.action.type + '</name>';
+    text += '<point><x>' + this.point.x + '</x><y>' + this.point.y + '</y></point>';
+    text += '</action>';
+    return text;
+}
+
 //Action MouseDown
 function MouseDown(_point) {
     this.action = new Action('mousedown');
@@ -6686,6 +6720,14 @@ MouseDown.prototype.setDelta = function (_delta) {
 
 MouseDown.prototype.getPoint = function () {
     return this.point;
+}
+
+MouseDown.prototype.toString = function () {
+    var text = '<action>';
+    text += '<name>' + this.action.type + '</name>';
+    text += '<point><x>' + this.point.x + '</x><y>' + this.point.y + '</y></point>';
+    text += '</action>';
+    return text;
 }
 
 //Tutorial
@@ -6722,6 +6764,10 @@ Tutorial.prototype.toString = function () {
 
 Tutorial.prototype.getAction = function (i) {
     return this.actions[i];
+}
+
+Tutorial.prototype.readTutorial = function(text) {
+    console.log('tutorial ' + text);
 }
 
 //Mouse
