@@ -666,7 +666,7 @@ IDE_Morph.prototype.createControlBar = function () {
     exportButton = button;
     this.controlBar.add(exportButton);
     this.controlBar.exportButton = exportButton;
-    
+
     // projectButton
     button = new PushButtonMorph(
             this,
@@ -1615,7 +1615,9 @@ IDE_Morph.prototype.droppedText = function (aString, name) {
         return this.openMediaString(aString);
     }
     if (aString.indexOf('<tutorial') === 0) {
-        return world.tutorial.readTutorial(aString);
+        world.tutorial = new Tutorial();
+        world.tutorial.readTutorial(aString);
+        this.playTutorial();
     }
 };
 
@@ -1763,9 +1765,6 @@ IDE_Morph.prototype.startRecording = function () {
                 "mouseup",
                 this.mouseUpFunction,
                 false);
-        //create file with the mouse moves
-        console.log('create new mouse and do play the tutorial');
-        this.playTutorial();
         console.log('stop recording');
     }
     else {
@@ -1797,28 +1796,27 @@ IDE_Morph.prototype.startRecording = function () {
 };
 
 IDE_Morph.prototype.moveMouseFunction = function (event) {
-    //world.tutorial.addMousePosition( new Position( event.pageX, event.pageY ) );
-    world.tutorial.addAction(new MouseMove(new Point(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseMove(new Point(event.pageX, event.pageY)), true);
 };
 
 IDE_Morph.prototype.doubleClickFunction = function (event) {
-    world.tutorial.addAction(new DoubleClick(new Point(event.pageX, event.pageY)));
+    world.tutorial.addAction(new DoubleClick(new Point(event.pageX, event.pageY)), false);
     console.log('mouse double clicked!');
     new Mouse();
 };
 
 IDE_Morph.prototype.keyPressFunction = function (event) {
-    world.tutorial.addAction(new KeyPress(event.keyCode));
+    world.tutorial.addAction(new KeyPress(event.keyCode), false);
     console.log('key pressed!');
 };
 
 IDE_Morph.prototype.mouseDownFunction = function (event) {
-    world.tutorial.addAction(new MouseDown(new Point(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseDown(new Point(event.pageX, event.pageY)), false);
     console.log('mouse down!');
 };
 
 IDE_Morph.prototype.mouseUpFunction = function (event) {
-    world.tutorial.addAction(new MouseUp(new Point(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseUp(new Point(event.pageX, event.pageY)), false);
     console.log('mouse up!');
 };
 
@@ -1838,7 +1836,7 @@ IDE_Morph.prototype.createXMLTutorial = function () {
     var text = '<tutorial>';
     text += world.tutorial.actions.toString();
     text += '</tutorial>';
-    
+
     var data = new Blob([text], {type: 'text/plain'});
 
     return window.URL.createObjectURL(data);
@@ -6738,17 +6736,19 @@ function Tutorial() {
 
 Tutorial.prototype.constructor = Tutorial;
 
-Tutorial.prototype.addAction = function (_action) {
-    new_date = new Date();
-    if (_action.action.type == 'mousemove') {
-        if (new_date.getTime() - this.lastUpdated < 10) {
-            return;
+Tutorial.prototype.addAction = function (_action, checkTime) {
+    if (checkTime) {
+        new_date = new Date();
+        if (_action.action.type == 'mousemove') {
+            if (new_date.getTime() - this.lastUpdated < 10) {
+                return;
+            }
+            else {
+                this.lastUpdated = new_date.getTime();
+            }
         }
-        else {
-            this.lastUpdated = new_date.getTime();
-        }
+        _action.setDelta = new_date.getTime();
     }
-    _action.setDelta = new_date.getTime();
     this.actions.push(_action);
 }
 
@@ -6765,8 +6765,47 @@ Tutorial.prototype.getAction = function (i) {
     return this.actions[i];
 }
 
-Tutorial.prototype.readTutorial = function(text) {
-    console.log('tutorial ' + text);
+Tutorial.prototype.readTutorial = function (text) {
+    console.log('start parsing tutorial');
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(text, "text/xml");
+    var actions = xmlDoc.getElementsByTagName("action");
+    for (var i = 0; i < actions.length; ++i) {
+        var action = actions[i];
+        var name = action.getElementsByTagName('name');
+        switch (name[0].textContent) {
+            case 'mousemove':
+                var point = action.getElementsByTagName('point');
+                var x = point[0].getElementsByTagName('x')[0].textContent;
+                var y = point[0].getElementsByTagName('y')[0].textContent;
+                this.addAction(new MouseMove(new Point(x, y)), false);
+                break;
+            case 'mouseup':
+                var point = action.getElementsByTagName('point');
+                var x = point[0].getElementsByTagName('x')[0].textContent;
+                var y = point[0].getElementsByTagName('y')[0].textContent;
+                this.addAction(new MouseUp(new Point(x, y)), false);
+                break;
+            case 'mousedown':
+                var point = action.getElementsByTagName('point');
+                var x = point[0].getElementsByTagName('x')[0].textContent;
+                var y = point[0].getElementsByTagName('y')[0].textContent;
+                this.addAction(new MouseDown(new Point(x, y)), false);
+                break;
+            case 'keypress':
+                var key = action.getElementsByTagName('key');
+                this.addAction(new KeyPress(key[0]), false);
+                break;
+            case 'dblclick':
+                var point = action.getElementsByTagName('point');
+                var x = point[0].getElementsByTagName('x')[0].textContent;
+                var y = point[0].getElementsByTagName('y')[0].textContent;
+                this.addAction(new DoubleClick(new Point(x, y)), false);
+                break;
+            default:
+                console.log('Action ' + name[0] + ' not recognized');
+        }
+    }
 }
 
 //Mouse
