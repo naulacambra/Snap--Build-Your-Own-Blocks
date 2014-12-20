@@ -1764,8 +1764,6 @@ IDE_Morph.prototype.startRecording = function () {
                 this.mouseUpFunction,
                 false);
         //create file with the mouse moves
-        console.log('create and download tutorial file');
-        this.exportTutorial();
         console.log('create new mouse and do play the tutorial');
         this.playTutorial();
         console.log('stop recording');
@@ -1830,6 +1828,7 @@ IDE_Morph.prototype.exportTutorial = function () {
         downloadFile.href = this.createXMLTutorial();
         downloadFile.setAttribute('download', 'tutorial.txt');
         downloadFile['click'](downloadFile);
+        delete world.tutorial;
     } else {
         console.log('The File APIs are not fully supported in this browser.');
     }
