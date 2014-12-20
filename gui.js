@@ -1833,7 +1833,7 @@ IDE_Morph.prototype.exportTutorial = function () {
 }
 
 IDE_Morph.prototype.createXMLTutorial = function () {
-    var data = new Blob([world.tutorial], {type: 'text/plain'});
+    var data = new Blob([world.tutorial.actions.toString()], {type: 'text/plain'});
 
     return window.URL.createObjectURL(data);
 }
@@ -6582,6 +6582,10 @@ Action.prototype.setDelta = function (_delta) {
     this.delta = _delta;
 }
 
+Action.prototype.toString = function(){
+    return this.type;
+}
+
 //Action MouseMoved
 function MouseMove(_pos) {
     this.action = new Action('mousemove');
@@ -6590,6 +6594,10 @@ function MouseMove(_pos) {
 
 MouseMove.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
+}
+
+MouseMove.prototype.toString = function(){
+    return this.action.toString();
 }
 
 //Action KeyPressed
@@ -6654,6 +6662,15 @@ Tutorial.prototype.addAction = function (_action) {
     }
     _action.setDelta = new_date.getTime();
     this.actions.push(_action);
+}
+
+Tutorial.prototype.toString = function(){
+    var lines = [];
+    this.actions.forEach(function(action){
+        lines.push(action.toString());
+    });
+    lines.join('');
+    return lines;
 }
 
 //Mouse
