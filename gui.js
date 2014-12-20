@@ -1761,7 +1761,10 @@ IDE_Morph.prototype.startRecording = function () {
                 this.mouseUpFunction,
                 false);
         //create file with the mouse moves
-        this.exportTutorial();
+        console.log('create and download tutorial file');
+//        this.exportTutorial();
+        console.log('create new mouse and do play the tutorial');
+        this.playTutorial();
         console.log('stop recording');
     }
     else {
@@ -1794,11 +1797,11 @@ IDE_Morph.prototype.startRecording = function () {
 
 IDE_Morph.prototype.moveMouseFunction = function (event) {
     //world.tutorial.addMousePosition( new Position( event.pageX, event.pageY ) );
-    world.tutorial.addAction(new MouseMove(new Position(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseMove(new Point(event.pageX, event.pageY)));
 };
 
 IDE_Morph.prototype.doubleClickFunction = function (event) {
-    world.tutorial.addAction(new DoubleClick(new Position(event.pageX, event.pageY)));
+    world.tutorial.addAction(new DoubleClick(new Point(event.pageX, event.pageY)));
     console.log('mouse double clicked!');
     new Mouse();
 };
@@ -1809,23 +1812,20 @@ IDE_Morph.prototype.keyPressFunction = function (event) {
 };
 
 IDE_Morph.prototype.mouseDownFunction = function (event) {
-    world.tutorial.addAction(new MouseDown(new Position(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseDown(new Point(event.pageX, event.pageY)));
     console.log('mouse down!');
 };
 
 IDE_Morph.prototype.mouseUpFunction = function (event) {
-    world.tutorial.addAction(new MouseUp(new Position(event.pageX, event.pageY)));
+    world.tutorial.addAction(new MouseUp(new Point(event.pageX, event.pageY)));
     console.log('mouse up!');
 };
 
 IDE_Morph.prototype.exportTutorial = function () {
-    console.log('start exporting tutorial');
     if (window.File && window.FileReader && window.FileList && window.Blob) {
-        console.log('The File APIs are fully supported in this browser.');
         downloadFile = document.createElement('a');
         downloadFile.href = this.createXMLTutorial();
         downloadFile.setAttribute('download', 'tutorial.txt');
-        console.log('download file');
         downloadFile['click'](downloadFile);
     } else {
         console.log('The File APIs are not fully supported in this browser.');
@@ -1836,6 +1836,34 @@ IDE_Morph.prototype.createXMLTutorial = function () {
     var data = new Blob([world.tutorial.actions.toString()], {type: 'text/plain'});
 
     return window.URL.createObjectURL(data);
+}
+
+IDE_Morph.prototype.playTutorial = function () {
+    this.createNewCursor();
+    var i = 0;
+    var newCursor = this.currentSprite;
+
+    world.timer = setInterval(function () {
+        if (i < world.tutorial.actions.length) {
+            newCursor.setPosition(world.tutorial.getAction(i).getPoint());
+        } else {
+            console.log('tutorial finished!');
+            clearInterval(world.timer);
+        }
+        ++i;
+    }, 10);
+}
+
+IDE_Morph.prototype.createNewCursor = function () {
+    var newSpriteMorph = this.currentSprite.fullCopy();
+    newSpriteMorph.setPosition(this.world().hand.position());
+    newSpriteMorph.appearIn(this);
+    newSpriteMorph.keepWithin(this);
+    newSpriteMorph.setColor(new Color(255, 0, 0, 1));
+    newSpriteMorph.parent = this;
+    this.currentSprite = newSpriteMorph;
+    console.log('new cursor created!');
+    console.log(newSpriteMorph);
 }
 // IDE_Morph skins
 
@@ -6582,21 +6610,25 @@ Action.prototype.setDelta = function (_delta) {
     this.delta = _delta;
 }
 
-Action.prototype.toString = function(){
+Action.prototype.toString = function () {
     return this.type;
 }
 
 //Action MouseMoved
-function MouseMove(_pos) {
+function MouseMove(_point) {
     this.action = new Action('mousemove');
-    this.position = _pos;
+    this.point = _point;
 }
 
 MouseMove.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
 }
 
-MouseMove.prototype.toString = function(){
+MouseMove.prototype.getPoint = function () {
+    return this.point;
+}
+
+MouseMove.prototype.toString = function () {
     return this.action.toString();
 }
 
@@ -6610,34 +6642,50 @@ KeyPress.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
 }
 
+KeyPress.prototype.getPoint = function () {
+    return this.point;
+}
+
 //Action DoubleClick
-function DoubleClick(_pos) {
+function DoubleClick(_point) {
     this.action = new Action('dblclick');
-    this.pos = _pos;
+    this.point = _point;
 }
 
 DoubleClick.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
 }
 
+DoubleClick.prototype.getPoint = function () {
+    return this.point;
+}
+
 //Action MouseUp
-function MouseUp(_pos) {
+function MouseUp(_point) {
     this.action = new Action('mouseup');
-    this.pos = _pos;
+    this.point = _point;
 }
 
 MouseUp.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
 }
 
+MouseUp.prototype.getPoint = function () {
+    return this.point;
+}
+
 //Action MouseDown
-function MouseDown(_pos) {
+function MouseDown(_point) {
     this.action = new Action('mousedown');
-    this.pos = _pos;
+    this.point = _point;
 }
 
 MouseDown.prototype.setDelta = function (_delta) {
     this.action.setDelta(_delta);
+}
+
+MouseDown.prototype.getPoint = function () {
+    return this.point;
 }
 
 //Tutorial
@@ -6652,25 +6700,28 @@ Tutorial.prototype.constructor = Tutorial;
 Tutorial.prototype.addAction = function (_action) {
     new_date = new Date();
     if (_action.action.type == 'mousemove') {
-        if (new_date.getTime() - this.lastUpdated < 100) {
+        if (new_date.getTime() - this.lastUpdated < 10) {
             return;
         }
         else {
             this.lastUpdated = new_date.getTime();
-            console.log(_action.position);
         }
     }
     _action.setDelta = new_date.getTime();
     this.actions.push(_action);
 }
 
-Tutorial.prototype.toString = function(){
+Tutorial.prototype.toString = function () {
     var lines = [];
-    this.actions.forEach(function(action){
+    this.actions.forEach(function (action) {
         lines.push(action.toString());
     });
     lines.join('');
     return lines;
+}
+
+Tutorial.prototype.getAction = function (i) {
+    return this.actions[i];
 }
 
 //Mouse
