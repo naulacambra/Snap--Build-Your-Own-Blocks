@@ -1696,13 +1696,15 @@ SpriteMorph.prototype.blockTemplates = function (category) {
     {
         console.log("TUTORIAL 1");
         window.open('Tutorials/tutorial1.html', 'Tutorial1');
+       //window.showModalDialog("http://www.java2s.com", form, "dialogWidth:300px; dialogHeight:201px; center:yes");
     }
 
-    IDE_Morph.prototype.tutorialFunction1 = function() { tutorialFunction()
+   
+    IDE_Morph.prototype.tutorialFunction = function() {
     
         console.log("TUTORIAL 1");
         window.open('Tutorials/tutorial1.html', 'Tutorial1');
-    }
+    };
 
     function addVar(pair) {
         if (pair) {
@@ -2008,21 +2010,10 @@ SpriteMorph.prototype.blockTemplates = function (category) {
 
     else if(cat === 'tutorials')
     {
-        /*button = new PushButtonMorph(
-            this,
-            "tutorialFunction",
-            'Tutorial 1: Getting started'
-        );
-        button.userMenu = helpMenu;
-        button.selector = 'addVariable';
-        button.showHelp = BlockMorph.prototype.showHelp;
-
-        blocks.push(button);*/
-
-       button = new PushButtonMorph(
+        button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2034,15 +2025,13 @@ SpriteMorph.prototype.blockTemplates = function (category) {
             },
             'Tutorial 1: Getting started'
         );
-        button.userMenu = helpMenu;
-        button.selector = 'addVariable';
-        button.showHelp = BlockMorph.prototype.showHelp;
+        
         blocks.push(button);
 
         button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2062,7 +2051,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2082,7 +2071,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
          button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2102,7 +2091,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
          button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2122,7 +2111,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
          button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2142,7 +2131,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2162,7 +2151,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -2182,7 +2171,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         button = new PushButtonMorph(
             null,
             function () {
-                new VariableDialogMorph(
+                new DialogBoxMorph(
                     null,
                     tutorialFunction,
                     myself
@@ -5345,14 +5334,14 @@ StageMorph.prototype.blockTemplates = function (category) {
     else if(cat === 'tutorials')
     {
 
-        /*button = new PushButtonMorph(
+        button = new PushButtonMorph(
             this,
             "tutorialFunction",
             'Tutorial 1: Getting started'
         );
-        blocks.push(button);*/
+        blocks.push(button);
 
-        button = new PushButtonMorph(
+        /*button = new PushButtonMorph(
             null,
             function () {
                 new VariableDialogMorph(
@@ -5367,7 +5356,7 @@ StageMorph.prototype.blockTemplates = function (category) {
             },
             'Tutorial 1: Getting started'
         );
-        blocks.push(button);
+        blocks.push(button);*/
 
         button = new PushButtonMorph(
             null,
