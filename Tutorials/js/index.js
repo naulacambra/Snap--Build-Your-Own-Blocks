@@ -2,13 +2,13 @@ window.onload = function () {
   
   // Get the buttons.
   var styledModalBtn = document.getElementById('launchStyledModal');
-  var italianoBtn = document.getElementById('italiano');
+  var espanolBtn = document.getElementById('launchEspanol');
   var closeBtns = document.querySelectorAll('.close');
   
   
   // Get the dialogs.
   var styledModal = document.getElementById('styledModal');
-  var italiano = document.getElementById('styledModal');
+  var espanol = document.getElementById('espanol');
 
   styledModalBtn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -16,10 +16,10 @@ window.onload = function () {
     styledModal.showModal();
   });
   
-  italianoBtn.addEventListener('click', function(e) {
+  espanolBtn.addEventListener('click', function(e) {
     e.preventDefault();
     
-    italiano.showModal();
+    espanol.showModal();
   });
   
   for (var i = 0; i < closeBtns.length; i++) {

@@ -1692,7 +1692,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         return menu;
     }
 
-    function tutorialFunction()
+    function tutorialFunction1()
     {
         console.log("TUTORIAL 1");
         window.open('Tutorials/tutorial1.html', 'Tutorial1');
@@ -1700,10 +1700,38 @@ SpriteMorph.prototype.blockTemplates = function (category) {
     }
 
    
-    IDE_Morph.prototype.tutorialFunction = function() {
+    IDE_Morph.prototype.tutorialFunction1 = function() {
     
         console.log("TUTORIAL 1");
         window.open('Tutorials/tutorial1.html', 'Tutorial1');
+    };
+
+    function tutorialFunction2()
+    {
+        console.log("TUTORIAL 2");
+        window.open('Tutorials/tutorial2.html', 'Tutorial2');
+       //window.showModalDialog("http://www.java2s.com", form, "dialogWidth:300px; dialogHeight:201px; center:yes");
+    }
+
+   
+    IDE_Morph.prototype.tutorialFunction2 = function() {
+    
+        console.log("TUTORIAL 2");
+        window.open('Tutorials/tutorial2.html', 'Tutorial2');
+    };
+
+    function tutorialFunction3()
+    {
+        console.log("TUTORIAL 3");
+        window.open('Tutorials/tutorial3.html', 'Tutorial3');
+       //window.showModalDialog("http://www.java2s.com", form, "dialogWidth:300px; dialogHeight:201px; center:yes");
+    }
+
+   
+    IDE_Morph.prototype.tutorialFunction3 = function() {
+    
+        console.log("TUTORIAL 3");
+        window.open('Tutorials/tutorial3.html', 'Tutorial3');
     };
 
     function addVar(pair) {
@@ -2015,7 +2043,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
             function () {
                 new DialogBoxMorph(
                     null,
-                    tutorialFunction,
+                    tutorialFunction1,
                     myself
                 ).prompt(
                     'Tutorial 1: Getting started',
@@ -2033,15 +2061,15 @@ SpriteMorph.prototype.blockTemplates = function (category) {
             function () {
                 new DialogBoxMorph(
                     null,
-                    tutorialFunction,
+                    tutorialFunction2,
                     myself
                 ).prompt(
-                    'Tutorial 2a: Motion',
+                    'Tutorial 2a: Change The Sprite',
                     null,
                     myself.world()
                 );
             },
-            'Tutorial 2a: Motion'
+            'Tutorial 2a: Change The Sprite'
         );
         button.userMenu = helpMenu;
         button.selector = 'addVariable';
@@ -2053,15 +2081,15 @@ SpriteMorph.prototype.blockTemplates = function (category) {
             function () {
                 new DialogBoxMorph(
                     null,
-                    tutorialFunction,
+                    tutorialFunction3,
                     myself
                 ).prompt(
-                    'Tutorial 2b: Control',
+                    'Tutorial 2b: Basic Move',
                     null,
                     myself.world()
                 );
             },
-            'Tutorial 2b: Control'
+            'Tutorial 2b: Basic Move'
         );
         button.userMenu = helpMenu;
         button.selector = 'addVariable';
@@ -5363,10 +5391,10 @@ StageMorph.prototype.blockTemplates = function (category) {
             function () {
                 new VariableDialogMorph(
                     null,
-                    tutorialFunction,
+                    tutorialFunction2,
                     myself
                 ).prompt(
-                    'Tutorial 2a: Motion',
+                    'Tutorial 2a: Change the Sprite',
                     null,
                     myself.world()
                 );
@@ -5380,10 +5408,10 @@ StageMorph.prototype.blockTemplates = function (category) {
             function () {
                 new VariableDialogMorph(
                     null,
-                    tutorialFunction,
+                    tutorialFunction3,
                     myself
                 ).prompt(
-                    'Tutorial 2b: Control',
+                    'Tutorial 2b: Basic Move',
                     null,
                     myself.world()
                 );
